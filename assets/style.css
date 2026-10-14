@@ -1,0 +1,2145 @@
+/* ═══════════════════════════════════════════════════════════════
+   ProcureEase — Shared styles
+   =============================================================== */
+
+:root {
+  /* Whole system = NAVY BLUE + WHITE only. Light mode: light backgrounds with
+     navy-blue text & accents. Dark mode (body[data-theme="dark"]): navy backgrounds
+     with white text. The "orange-*"/"accent" tokens now hold navy blue (no teal/gold),
+     so every existing rule keeps working — only the values changed. */
+  --navy-900: #121358; --navy-800: #093c5d; --navy-700: #232f72;
+  --navy-500: #4a8fb3; --navy-100: #a8c9d8; --navy-50: #d8e9f0;
+  --orange-600: #0f3a63; --orange-500: #1e5285;
+  --orange-100: #cddcec; --orange-50: #eef4fa;
+  /* Revision blue — darker than academic blue for distinction */
+  --revision-blue: #0d3a5e; --revision-blue-light: #2a5a85; --revision-blue-bg: #d0dde8;
+  /* Button/action accent — navy blue (light) / white (dark). */
+  --accent: #1e5285; --accent-hover: #0f3a63;
+  /* Label colour for accent-filled buttons. Light mode fills them with a
+     deep navy, so the label is white (8.07:1, 11.63:1 on hover); dark mode
+     fills them with a pale blue, so the label goes near-black instead
+     (7.12:1, 5.80:1 on hover). One token, right in both themes. */
+  --accent-ink: #ffffff;
+  /* #16a34a read 3.30:1 on white. */
+  --green-500: #15803d; --green-50: #f0fdf4;
+  --page: #eef4fa; --white: #FFFFFF;
+  /* #5b7796 measured 4.19:1 on the page background — under the 4.5:1
+     minimum for normal text, which every page subtitle uses. */
+  /* #54708e measured 4.12:1 on a navy-50 panel — under the 4.5:1
+     minimum for the page subtitles and meta lines that use it. */
+  --ink: #0f2b4a; --muted: #456077; --border: #d5e0ec;
+}
+
+/* The PPMP, APP-CSE, Annex and Non-PS documents keep their ORIGINAL navy+gold
+   colours so their printed/on-screen format never shifts when the app palette
+   changes. Every variable they rely on is pinned to its original value. */
+body[data-nav="ppmps"],       body[data-nav="my-ppmp"],
+body[data-nav="appcse"],      body[data-nav="my-appcse"],
+body[data-nav="annex"],       body[data-nav="my-annex"],
+body[data-nav="nonps"],       body[data-nav="my-nonps"],
+body[data-nav="nonps-consolidated"] {
+  --navy-900: #4A7AAD; --navy-800: #3E6796; --navy-700: #4F7DAE;
+  --navy-500: #95BDD7; --navy-100: #CFE4F0; --navy-50: #EAF4F9;
+  /* #6B8299 read 3.98:1 on the sheet; #E8DA8F — a pale yellow on a
+     near-white badge — read 1.40:1, which is no colour at all. */
+  --ink: #133458; --muted: #516678;
+  --orange-600: #7a5f18; --orange-500: #CFE4F0;
+  --orange-100: #FFFCE8; --orange-50: #FFFEF7;
+  --border: #B4E1EB; --page: #CFE4F0;
+  --revision-blue: #0d3a5e; --revision-blue-light: #2a5a85; --revision-blue-bg: #d0dde8;
+}
+
+/* Market Scoping keeps its ORIGINAL (previous app) colours too, so it is
+   unaffected by the new palette. */
+body[data-nav="scoping"], body[data-nav="my-scoping"] {
+  --navy-900: #4A7AAD; --navy-800: #3E6796; --navy-700: #4F7DAE;
+  --navy-500: #95BDD7; --navy-100: #CFE4F0; --navy-50: #EAF4F9;
+  --ink: #10314F; --muted: #5A7896;
+  --orange-600: #C2410C; --orange-500: #F97316;
+  --orange-100: #FFE2CE; --orange-50: #FFF4EC;
+  --border: #B4E1EB; --page: #EAF4F9;
+  --revision-blue: #0d3a5e; --revision-blue-light: #2a5a85; --revision-blue-bg: #d0dde8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--page); color: var(--ink);
+  line-height: 1.5; min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Topbar ─────────────────────────────────────── */
+.topbar {
+  background: linear-gradient(100deg, var(--navy-500) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
+  color: #ffffff;
+  padding: 16px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+  border-bottom: none;
+}
+.institution { display: flex; align-items: center; gap: 14px; }
+.school-mark {
+  width: 56px; height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.school-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+  color: #ffffff;
+}
+.topbar-user {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 13px; color: #ffffff;
+}
+.topbar .theme-toggle { color: #ffffff; }
+.topbar .theme-toggle svg { stroke: #ffffff; }
+.topbar .theme-toggle:hover { background: rgba(255,255,255,0.18); box-shadow: none; }
+.topbar-user .tb-name {
+  display: flex; align-items: center; gap: 10px;
+}
+.topbar-user .avatar {
+  /* Pinned, not tokenised. var(--orange-500) is deep navy in the app but
+     pale blue on a document page, orange on Market Scoping and light blue
+     in dark mode, so white initials were legible on exactly one of the
+     four. This pair reads on all of them: 10.4:1 either way. */
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #eaf2fa; color: #12345c;
+  display: grid; place-items: center;
+  font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+}
+
+/* ── App layout ─────────────────────────────────── */
+.app {
+  display: grid; grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 72px);
+}
+
+/* ── Sidebar ────────────────────────────────────── */
+.sidebar {
+  background: var(--navy-700); color: #eaf2fb;
+  padding: 28px 20px;
+  display: flex; flex-direction: column;
+}
+.brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px; font-weight: 700; color: #ffffff;
+  padding: 0 14px; margin-bottom: 4px;
+}
+.brand-sub {
+  font-size: 11px; color: rgba(234,242,251,0.6);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  font-weight: 700; padding: 0 14px; margin-bottom: 28px;
+}
+.brand-sub.hidden { display: none; }
+.nav {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-radius: 10px;
+  color: rgba(234,242,251,0.78);
+  text-decoration: none;
+  font-size: 14px; font-weight: 500;
+  transition: all 0.15s;
+  position: relative;
+}
+.nav a:hover { background: rgba(255,255,255,0.10); color: #ffffff; }
+.nav a.active { background: rgba(255,255,255,0.16); color: #ffffff; font-weight: 700; }
+.nav a.active::before {
+  content: ''; position: absolute;
+  left: -20px; top: 12px; bottom: 12px;
+  width: 3px; background: var(--accent);
+  border-radius: 0 3px 3px 0;
+}
+.nav-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.sidebar-footer {
+  margin-top: auto; padding-top: 24px;
+  font-size: 11px; color: rgba(234,242,251,0.55);
+  padding-left: 14px; line-height: 1.5;
+}
+
+/* ── Main content ───────────────────────────────── */
+/* min-width: 0 is the whole fix for a page that scrolled sideways.
+   .main is a grid item, and a grid item will not go narrower than its
+   widest content unless it is told it may. A wide table therefore made
+   main wider than the window instead of scrolling inside it, and every
+   button along the right-hand edge went off the screen with it. */
+.main { padding: 32px 48px 60px; min-width: 0; }
+/* So the wide things scroll in their own panel rather than moving the
+   page. The bar is only drawn when there is something to scroll to. */
+.main .card > table,
+.main table.dept-table,
+.main table.log-table { display: block; overflow-x: auto; max-width: 100%; }
+/* A table straight inside a card is moved into this wrapper as the page
+   loads (includes/head.php): the wrapper scrolls, so the table keeps the
+   full width it asks for instead of shrinking to its content. */
+.main .tbl-scroll { overflow-x: auto; max-width: 100%; }
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--muted);
+  margin-bottom: 12px;
+}
+.breadcrumb a {
+  color: var(--navy-500); text-decoration: none;
+  font-weight: 500;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+
+.page-head {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 24px;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.page-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 30px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--ink); line-height: 1.2;
+}
+.page-sub {
+  font-size: 14px; color: var(--muted); margin-top: 6px;
+}
+
+.section-head {
+  display: flex; justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px; gap: 20px; flex-wrap: wrap;
+}
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px; font-weight: 600; letter-spacing: -0.01em;
+}
+.section-sub {
+  font-size: 13px; color: var(--muted); margin-top: 4px;
+}
+
+/* ── Buttons ────────────────────────────────────── */
+.btn {
+  padding: 11px 20px; border-radius: 10px;
+  font-size: 14px; font-weight: 600;
+  border: 1px solid transparent; cursor: pointer;
+  font-family: inherit; transition: all 0.15s;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap; text-decoration: none;
+}
+/* Primary — the system blue */
+.btn-primary { background: var(--navy-700); color: #ffffff; }
+.btn-primary:hover { background: var(--navy-800); }
+/* The document pages (PPMP, APP-CSE, Annex, Non-PS, Market Scoping) carry a
+   lighter palette in which --navy-700 is #4F7DAE. White on it measures
+   4.31:1, under the 4.5:1 minimum, so a primary button there takes a fill of
+   its own: 7.37:1, and 9.75:1 on hover. */
+body[data-nav="ppmps"] .btn-primary,       body[data-nav="my-ppmp"] .btn-primary,
+body[data-nav="appcse"] .btn-primary,      body[data-nav="my-appcse"] .btn-primary,
+body[data-nav="annex"] .btn-primary,       body[data-nav="my-annex"] .btn-primary,
+body[data-nav="nonps"] .btn-primary,       body[data-nav="my-nonps"] .btn-primary,
+body[data-nav="nonps-consolidated"] .btn-primary,
+body[data-nav="scoping"] .btn-primary,     body[data-nav="my-scoping"] .btn-primary {
+  background: #2f578a;
+}
+body[data-nav="ppmps"] .btn-primary:hover,       body[data-nav="my-ppmp"] .btn-primary:hover,
+body[data-nav="appcse"] .btn-primary:hover,      body[data-nav="my-appcse"] .btn-primary:hover,
+body[data-nav="annex"] .btn-primary:hover,       body[data-nav="my-annex"] .btn-primary:hover,
+body[data-nav="nonps"] .btn-primary:hover,       body[data-nav="my-nonps"] .btn-primary:hover,
+body[data-nav="nonps-consolidated"] .btn-primary:hover,
+body[data-nav="scoping"] .btn-primary:hover,     body[data-nav="my-scoping"] .btn-primary:hover {
+  background: #24456f;
+}
+/* Secondary — the system gold/orange accent */
+.btn-secondary { background: var(--accent); color: var(--accent-ink); }
+.btn-secondary:hover { background: var(--accent-hover); color: var(--accent-ink); }
+/* Ghost — blue outline on white */
+.btn-ghost {
+  background: #ffffff; color: var(--navy-700);
+  border-color: var(--navy-500);
+}
+.btn-ghost:hover { border-color: var(--navy-700); background: var(--navy-50); }
+
+/* ── Card ───────────────────────────────────────── */
+.card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; padding: 28px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px; font-weight: 600;
+  color: var(--ink); margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.card-sub {
+  font-size: 13px; color: var(--muted);
+  margin-bottom: 22px;
+}
+
+/* ── Summary hero ───────────────────────────────── */
+.consol {
+  background: var(--navy-700); color: white;
+  border-radius: 16px; padding: 26px 32px;
+  margin-bottom: 20px;
+  display: grid; grid-template-columns: 1fr auto auto auto;
+  align-items: center; gap: 36px;
+  position: relative; overflow: hidden;
+}
+.consol::before {
+  content: ''; position: absolute;
+  right: -40px; top: -40px;
+  width: 200px; height: 200px;
+  background: var(--orange-500); opacity: 0.12;
+  border-radius: 50%; filter: blur(30px);
+}
+.consol-title { position: relative; z-index: 1; }
+.consol-eyebrow {
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.14em; color: var(--orange-500);
+  font-weight: 700; margin-bottom: 8px;
+}
+.consol-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px; font-weight: 600;
+  letter-spacing: -0.01em; line-height: 1.25;
+}
+.consol-heading small {
+  display: block; color: rgba(255, 255, 255, 0.6);
+  font-size: 13px; font-weight: 400;
+  margin-top: 4px;
+  font-family: 'Inter', sans-serif; letter-spacing: 0;
+}
+.consol-metric { position: relative; z-index: 1; }
+.consol-metric-label {
+  font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600; margin-bottom: 4px;
+}
+.consol-metric-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px; font-weight: 600;
+  letter-spacing: -0.02em; line-height: 1;
+}
+
+/* ── Stats ──────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+.stat {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+}
+.stat-label {
+  font-size: 11px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 8px; font-weight: 600;
+}
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px; font-weight: 600;
+  line-height: 1; letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.stat-revision .stat-value { color: var(--revision-blue); }
+.stat-meta {
+  font-size: 12px; color: var(--muted); margin-top: 6px;
+}
+
+/* ── Folders ────────────────────────────────────── */
+.folder-group-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin: 20px 0 10px;
+}
+.folder-group-title:first-child { margin-top: 4px; }
+
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.folder {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 20px;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; gap: 14px;
+  position: relative; align-items: flex-start;
+  text-decoration: none; color: inherit;
+}
+.folder:hover {
+  border-color: var(--navy-500); transform: translateY(-1px);
+}
+.folder.has-revision, .folder.has-edit-req {
+  border-color: var(--revision-blue-light);
+}
+.folder-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--navy-100); color: var(--navy-500);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.folder.has-revision .folder-icon, .folder.has-edit-req .folder-icon {
+  background: var(--revision-blue-bg); color: var(--revision-blue);
+}
+.folder-info { flex: 1; min-width: 0; }
+.folder-code {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15.5px; font-weight: 600;
+  color: var(--ink); margin-bottom: 2px;
+  letter-spacing: -0.01em;
+}
+.folder-full {
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 8px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.folder-meta {
+  font-size: 11.5px; color: var(--muted);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.folder-meta .dot {
+  width: 3px; height: 3px; border-radius: 50%; background: var(--muted);
+}
+.folder-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--accent); color: var(--accent-ink);
+  font-size: 9.5px; font-weight: 700;
+  padding: 3px 8px; border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.folder-badge.fresh { background: var(--green-500); }
+
+/* ── Files ──────────────────────────────────────── */
+.files-list { display: grid; gap: 10px; }
+
+.file {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; padding: 18px 22px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center; gap: 20px;
+  transition: all 0.15s;
+}
+.file:hover { border-color: var(--navy-500); }
+.file.revision, .file.has-edit-req {
+  background: var(--revision-blue-bg); border-color: var(--revision-blue-light);
+}
+.file.fresh { border-color: #86efac; background: var(--green-50); }
+.file-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--navy-100); color: var(--navy-500);
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.file.revision .file-icon, .file.has-edit-req .file-icon {
+  background: var(--revision-blue-bg); color: var(--revision-blue);
+}
+.file.fresh .file-icon { background: #dcfce7; color: #15803d; }
+.file-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink); margin-bottom: 3px;
+  letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.file-meta {
+  font-size: 12.5px; color: var(--muted);
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.file-meta .dot {
+  width: 3px; height: 3px; border-radius: 50%; background: var(--muted);
+}
+.file-amount {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.01em; white-space: nowrap;
+}
+.rev-badge, .edit-req-tag, .fresh-tag {
+  padding: 3px 9px; font-size: 10px; font-weight: 700;
+  border-radius: 999px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.rev-badge { background: var(--revision-blue-bg); color: var(--revision-blue); }
+.edit-req-tag { background: var(--revision-blue-light); color: #ffffff; }
+.fresh-tag { background: var(--green-500); color: white; }
+
+/* ── Edit request banner ───────────────────────── */
+.edit-req-banner {
+  background: var(--revision-blue-bg);
+  border: 1px solid var(--revision-blue-light);
+  border-left: 4px solid var(--revision-blue);
+  border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.edit-req-banner-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--revision-blue-light); color: #ffffff;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.edit-req-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 600;
+  color: var(--revision-blue); margin-bottom: 4px;
+}
+.edit-req-desc { font-size: 13px; color: var(--revision-blue); line-height: 1.5; }
+.edit-req-desc strong { font-weight: 600; }
+
+/* ── Filter row / chips ─────────────────────────── */
+.filter-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; flex-wrap: wrap;
+}
+.filter-select {
+  padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 9px; background: white;
+  font-size: 13px; font-family: inherit; color: var(--ink);
+  cursor: pointer; font-weight: 500;
+}
+.search-input {
+  padding: 8px 12px 8px 34px;
+  border: 1px solid var(--border); border-radius: 9px;
+  background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>") 10px center no-repeat;
+  font-size: 13px; font-family: inherit; color: var(--ink);
+  flex: 1; min-width: 200px; max-width: 340px;
+}
+.chips { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+.chip {
+  padding: 7px 14px; font-size: 12px; font-weight: 500;
+  border: 1px solid var(--border); background: white;
+  border-radius: 999px; color: var(--muted);
+  cursor: pointer; font-family: inherit;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.chip:hover { border-color: var(--navy-500); color: var(--ink); }
+.chip.active { background: var(--navy-700); color: white; border-color: var(--navy-700); }
+.chip.revision.active { background: var(--revision-blue-light); border-color: var(--revision-blue-light); color: #ffffff; }
+
+/* ── Form ───────────────────────────────────────── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-full { grid-column: 1 / -1; }
+.form-label {
+  display: block; font-size: 13px; font-weight: 600;
+  color: var(--ink); margin-bottom: 6px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 9px;
+  background: white; font-size: 14px;
+  font-family: inherit; color: var(--ink);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-textarea { resize: vertical; min-height: 70px; }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none; border-color: var(--navy-500);
+  box-shadow: 0 0 0 3px rgba(59, 92, 176, 0.12);
+}
+.form-input[readonly] { background: var(--navy-50); color: var(--muted); }
+
+/* ── Modal ──────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(74, 122, 173, 0.4);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 100; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: white; border-radius: 16px; padding: 32px;
+  max-width: 520px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(74, 122, 173, 0.15);
+}
+.modal-header {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 8px;
+}
+.modal-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px; font-weight: 600;
+  letter-spacing: -0.02em; color: var(--ink);
+}
+.modal-close {
+  background: none; border: none;
+  color: var(--muted); cursor: pointer;
+  padding: 4px; line-height: 0;
+}
+.modal-close:hover { color: var(--ink); }
+.modal-sub {
+  font-size: 14px; color: var(--muted);
+  margin-bottom: 22px; line-height: 1.6;
+}
+.modal-actions {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 22px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Toast ──────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--navy-700); color: white;
+  padding: 14px 18px; border-radius: 10px;
+  font-size: 14px; font-weight: 500;
+  box-shadow: 0 10px 30px rgba(74, 122, 173, 0.25);
+  z-index: 200; display: none;
+  align-items: center; gap: 10px;
+  max-width: 400px;
+}
+.toast.active { display: flex; }
+.toast-icon {
+  width: 20px; height: 20px;
+  background: var(--orange-500); border-radius: 50%;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+
+/* Alerts (success/error flash) */
+.flash {
+  padding: 12px 16px; border-radius: 10px;
+  margin-bottom: 16px; font-size: 14px;
+  border: 1px solid;
+}
+.flash-error { background: var(--orange-50); border-color: var(--orange-100); color: var(--orange-600); }
+.flash-success { background: var(--green-50); border-color: #86efac; color: #14532d; }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar {
+    padding: 16px 20px;
+    flex-direction: row; overflow-x: auto; align-items: center;
+  }
+  .brand { margin-bottom: 0; margin-right: 12px; padding: 0; }
+  .brand-sub { display: none; }
+  .nav { flex-direction: row; gap: 4px; }
+  .nav a { padding: 8px 12px; }
+  .nav a.active::before { display: none; }
+  .sidebar-footer { display: none; }
+  .main { padding: 24px 20px 60px; }
+  .consol { grid-template-columns: 1fr; padding: 24px; gap: 20px; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .file { grid-template-columns: auto 1fr; gap: 12px; }
+  .file-amount, .file .rev-badge, .file .btn { grid-column: 2; justify-self: flex-start; }
+}
+@media (max-width: 500px) { .stats { grid-template-columns: 1fr; } }
+
+/* ── Admin tools cards on the dashboard ─────────────────── */
+.admin-tools {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.admin-tool {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 18px 18px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.admin-tool-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: white;
+}
+.admin-tool-icon.activity { background: var(--navy-700); }
+.admin-tool-icon.backup   { background: var(--navy-500); }
+.admin-tool-icon.settings { background: var(--orange-500); }
+.admin-tool-body { min-width: 0; }
+.admin-tool-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--ink);
+}
+.admin-tool-sub {
+  font-size: 12px; color: var(--muted);
+  margin-top: 1px;
+}
+.admin-tool-stat {
+  font-size: 12px; color: var(--navy-700);
+  font-weight: 600; margin-top: 8px;
+}
+.admin-tool-preview {
+  font-size: 12px; color: var(--ink);
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.admin-tool-action {
+  align-self: center;
+}
+.admin-tool-action .btn {
+  white-space: nowrap;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+/* ── Category-based folder styling (Academic vs Administrative) ── */
+.folder-group-header {
+  margin: 24px 0 12px;
+  padding-left: 4px;
+}
+.folder-group-header:first-of-type { margin-top: 8px; }
+.folder-group-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.folder-group-header.cat-navy .folder-group-badge {
+  background: var(--navy-100);
+  color: var(--navy-700);
+}
+.folder-group-header.cat-orange .folder-group-badge {
+  background: var(--orange-100);
+  color: var(--orange-600);
+}
+.folder-group-sub {
+  font-size: 12.5px; color: var(--muted);
+  margin-top: 6px; margin-left: 4px;
+}
+
+/* Category-tinted folders */
+.folder.cat-navy .folder-icon {
+  color: var(--navy-700);
+  background: var(--navy-100);
+}
+.folder.cat-navy:hover {
+  border-color: var(--navy-500);
+  box-shadow: 0 3px 12px rgba(74, 122, 173, 0.10);
+}
+.folder.cat-orange .folder-icon {
+  color: var(--orange-600);
+  background: var(--orange-100);
+}
+.folder.cat-orange:hover {
+  border-color: var(--orange-500);
+  box-shadow: 0 3px 12px rgba(255, 106, 28, 0.14);
+}
+/* Left border accent so category is glanceable */
+.folder.cat-navy   { border-left: 3px solid var(--navy-500); }
+.folder.cat-orange { border-left: 3px solid var(--orange-500); }
+
+/* ── PPMP overview charts ─────────────────────────────────── */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (max-width: 900px) {
+  .chart-grid { grid-template-columns: 1fr; }
+}
+.chart-card {
+  padding: 20px 22px !important;
+}
+.chart-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--ink); margin-bottom: 12px;
+}
+
+/* Donut chart */
+.chart-donut-wrap {
+  display: grid; place-items: center;
+  padding: 6px 0;
+}
+.chart-donut {
+  width: 180px; height: 180px;
+}
+.donut-center-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px; font-weight: 700; fill: var(--ink);
+}
+.donut-center-label {
+  font-size: 9px; fill: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* Donut legend */
+.chart-legend {
+  margin-top: 14px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12.5px;
+}
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.legend-label {
+  color: var(--muted); font-weight: 500;
+}
+.legend-value {
+  color: var(--ink); font-weight: 700; margin-left: auto;
+}
+
+/* Bar chart */
+.chart-bars {
+  display: flex; flex-direction: column; gap: 22px;
+  padding: 12px 0 8px;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.bar-label {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  font-size: 13px;
+}
+.bar-value {
+  color: var(--muted); font-weight: 600; font-size: 12px;
+}
+.bar-track {
+  height: 10px;
+  background: var(--navy-50);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease-out;
+}
+.bar-pct {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 700;
+  text-align: right;
+}
+.chart-note {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Multi-year vertical bar chart ───────────────────────── */
+.year-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 16px;
+  padding: 20px 8px 8px;
+  min-height: 180px;
+}
+.year-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 40px;
+  max-width: 80px;
+}
+.year-bar-count {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.year-bar-stack {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  align-items: stretch;
+  position: relative;
+}
+.year-bar-fill {
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: height 0.4s ease-out;
+  min-height: 4px;
+}
+.year-bar-fill > div {
+  width: 100%;
+  min-height: 2px;
+}
+.year-bar-fill > div:first-child { border-radius: 6px 6px 0 0; }
+.year-bar-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy-700);
+  margin-top: 4px;
+}
+
+/* ─── Dark mode ─────────────────────────────────────────── */
+body[data-theme="dark"] {
+  /* Dark mode = navy blue + white only. */
+  --page: #0a2647;        /* deep navy page */
+  --white: #103a5f;       /* navy surface (cards) */
+  --ink: #ffffff;         /* white text */
+  --muted: #b7cde0;       /* soft white-navy for secondary text */
+  --border: #1e4d78;      /* navy border */
+  --navy-50: #103a5f;     /* navy fills */
+  --navy-100: #16456e;
+  --orange-50: #103a5f;   /* accent tints -> navy */
+  --orange-100: #16456e;
+  --revision-blue: #9cc3e6; --revision-blue-light: #b8d4e8; --revision-blue-bg: #16456e;
+  /* Accent is a light navy (navy-blue-and-white only — no teal/gold). */
+  /* #6a9fce read 4.16:1 on a dark card, 3.54:1 on the darker fill. */
+  --orange-500: #7fb0dd; --orange-600: #9cc6e8;
+  --accent: #7fb0dd; --accent-hover: #6a9fce; --accent-ink: #052235;
+  /* Navy-colored TEXT tokens go light so headings stay readable on navy. */
+  --navy-500: #b8d4e8; --navy-700: #d4e8f5; --navy-800: #e8f4fc; --navy-900: #ffffff;
+  background: #0a2647;
+  color: #ffffff;
+}
+/* Background ELEMENTS use fixed navy (not the light text tokens above) */
+body[data-theme="dark"] .sidebar { background: #071d38 !important; border-right-color: #1e4d78; }
+body[data-theme="dark"] .topbar  { background: #071d38 !important; border-bottom-color: #1e4d78; }
+/* The dark error panel used orange-600 (#6a9fce) on #103a5f — 4.16:1,
+   just under the minimum. A lighter blue brings it to 6.07:1. */
+body[data-theme="dark"] .flash-error { color: #8fc0e8; }
+body[data-theme="dark"] .btn-primary { background: #1e5285 !important; color: #ffffff !important; }
+body[data-theme="dark"] .btn-primary:hover { background: #2a6199 !important; }
+body[data-theme="dark"] .consol { background: #103a5f !important; }
+/* Headings / navy-colored text tokens flip light so they stay readable */
+body[data-theme="dark"] .stat-value,
+body[data-theme="dark"] .card-title,
+body[data-theme="dark"] .page-title,
+body[data-theme="dark"] .section-title,
+body[data-theme="dark"] .folder-code,
+body[data-theme="dark"] .brand,
+body[data-theme="dark"] .nav a,
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] h4 {
+  color: var(--ink);
+}
+/* Revision elements use light colors in dark mode for readability */
+body[data-theme="dark"] .stat-revision .stat-value { color: var(--revision-blue); }
+body[data-theme="dark"] .rev-badge { background: var(--revision-blue-bg); color: var(--revision-blue); }
+body[data-theme="dark"] .edit-req-tag { background: var(--revision-blue-light); color: #ffffff; }
+body[data-theme="dark"] .edit-req-banner { background: var(--revision-blue-bg); border-color: var(--revision-blue-light); border-left-color: var(--revision-blue); }
+body[data-theme="dark"] .edit-req-banner-icon { background: var(--revision-blue-light); color: #ffffff; }
+body[data-theme="dark"] .edit-req-title { color: var(--revision-blue); }
+body[data-theme="dark"] .edit-req-desc { color: var(--revision-blue); }
+body[data-theme="dark"] .chip.revision.active { background: var(--revision-blue-light); border-color: var(--revision-blue-light); color: #ffffff; }
+body[data-theme="dark"] .folder.has-revision, body[data-theme="dark"] .folder.has-edit-req { border-color: var(--revision-blue-light); }
+body[data-theme="dark"] .folder.has-revision .folder-icon, body[data-theme="dark"] .folder.has-edit-req .folder-icon { background: var(--revision-blue-bg); color: var(--revision-blue); }
+body[data-theme="dark"] .file.revision, body[data-theme="dark"] .file.has-edit-req { background: var(--revision-blue-bg); border-color: var(--revision-blue-light); }
+body[data-theme="dark"] .file.revision .file-icon, body[data-theme="dark"] .file.has-edit-req .file-icon { background: var(--revision-blue-bg); color: var(--revision-blue); }
+/* "Fresh" (green) and flash/success (green) and notification-count (red) indicators
+   switch to navy/white in dark mode so no non-navy hue remains on screen. */
+body[data-theme="dark"] .folder-badge.fresh { background: var(--white); }
+body[data-theme="dark"] .file.fresh { border-color: var(--navy-500); background: var(--navy-50); }
+body[data-theme="dark"] .file.fresh .file-icon { background: var(--navy-100); color: var(--navy-500); }
+body[data-theme="dark"] .fresh-tag { background: var(--white); color: #ffffff; }
+body[data-theme="dark"] .flash-success { background: var(--navy-50); border-color: var(--navy-500); color: #ffffff; }
+body[data-theme="dark"] .pw-rules li.met { color: #ffffff; }
+body[data-theme="dark"] .notif-badge { background: #ffffff; color: #093c5d; border-color: #093c5d; }
+/* Keep primary buttons navy with white text */
+body[data-theme="dark"] .btn-primary { background: #1e5285 !important; color: #fff !important; }
+body[data-theme="dark"] .btn-primary:hover { background: #2a6199 !important; }
+/* Sidebar and topbar use deep navy in dark mode */
+body[data-theme="dark"] .sidebar { background: #071d38 !important; }
+body[data-theme="dark"] .topbar { background: #071d38 !important; }
+/* Summary hero uses dark navy in dark mode */
+body[data-theme="dark"] .consol { background: #0f335a !important; }
+/* Toast uses dark navy in dark mode */
+body[data-theme="dark"] .toast { background: #0f335a !important; color: #ffffff; }
+/* Chip active uses navy in dark mode */
+body[data-theme="dark"] .chip.active { background: #1e5285 !important; border-color: #1e5285 !important; color: #ffffff !important; }
+/* Muted/secondary text stays muted (not full white) */
+body[data-theme="dark"] .page-sub,
+body[data-theme="dark"] .card-sub,
+body[data-theme="dark"] .section-sub,
+body[data-theme="dark"] .stat-label,
+body[data-theme="dark"] .folder-meta,
+body[data-theme="dark"] .brand-sub { color: var(--muted); }
+/* Surfaces: cards, stats, folders use the dark surface; sidebar/topbar stay navy */
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .folder {
+  background: var(--white);
+  border-color: var(--border);
+}
+body[data-theme="dark"] .form-input,
+body[data-theme="dark"] .form-textarea,
+body[data-theme="dark"] .form-select {
+  background: #0d3252;
+  border-color: var(--border);
+  color: var(--ink);
+}
+/* The green action buttons are dark enough for white text (5.02:1) but
+   sit close to the dark surface, so they get a lighter edge to keep their
+   shape readable (6.72:1 against the surface). */
+body[data-theme="dark"] .btn[style*="#15803d"],
+body[data-theme="dark"] button[style*="#15803d"] {
+  border: 1px solid #4ade80 !important;
+}
+body[data-theme="dark"] .btn-ghost {
+  background: #0d3252;
+  color: var(--ink);
+  border-color: var(--border);
+}
+/* Generic white surfaces (form sheets, tables, modals) inherit the dark surface */
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+  background: #0d3252;
+  color: var(--ink);
+  border-color: var(--border);
+}
+
+/* ─── High contrast ─────────────────────────────────────── */
+body[data-contrast="high"] {
+  --border: #000;
+  --muted: #1a1a1a;
+  --ink: #000;
+  --page: #fff;
+}
+body[data-contrast="high"] .card,
+body[data-contrast="high"] .stat,
+body[data-contrast="high"] .folder,
+body[data-contrast="high"] .form-input,
+body[data-contrast="high"] .form-textarea,
+body[data-contrast="high"] .form-select {
+  border: 2px solid #000 !important;
+  background: #fff !important;
+}
+body[data-contrast="high"] .btn {
+  border: 2px solid #000 !important;
+  font-weight: 700;
+}
+body[data-contrast="high"] .btn-primary {
+  background: #000 !important;
+  color: #fff !important;
+}
+body[data-contrast="high"] .sidebar {
+  background: #fff !important;
+  border-right: 2px solid #000;
+}
+body[data-contrast="high"] .topbar {
+  background: #fff !important;
+  border-bottom: 2px solid #000;
+}
+body[data-contrast="high"] .nav a,
+body[data-contrast="high"] .brand,
+body[data-contrast="high"] .page-title,
+body[data-contrast="high"] .card-title,
+body[data-contrast="high"] .section-title,
+body[data-contrast="high"] h1,
+body[data-contrast="high"] h2,
+body[data-contrast="high"] h3,
+body[data-contrast="high"] p,
+body[data-contrast="high"] span,
+body[data-contrast="high"] td,
+body[data-contrast="high"] label,
+body[data-contrast="high"] a { color: #000 !important; }
+body[data-contrast="high"] .nav a.active {
+  background: #000 !important;
+  color: #fff !important;
+}
+body[data-contrast="high"] .nav a.active span,
+body[data-contrast="high"] .nav a.active { color: #fff !important; }
+/* The writing itself is set black or white by includes/head.php, against
+   whatever it sits on. Hints in empty boxes follow it. */
+body[data-contrast="high"] ::placeholder { color: currentColor !important; opacity: 0.75 !important; }
+/* In dark mode the outlines are white, on the dark page */
+body[data-theme="dark"][data-contrast="high"] { --border: #ffffff; }
+body[data-theme="dark"][data-contrast="high"] .card,
+body[data-theme="dark"][data-contrast="high"] .stat,
+body[data-theme="dark"][data-contrast="high"] .folder,
+body[data-theme="dark"][data-contrast="high"] .form-input,
+body[data-theme="dark"][data-contrast="high"] .form-textarea,
+body[data-theme="dark"][data-contrast="high"] .form-select,
+body[data-theme="dark"][data-contrast="high"] .btn { border-color: #ffffff !important; }
+body[data-theme="dark"][data-contrast="high"] .sidebar { border-right-color: #ffffff; }
+body[data-theme="dark"][data-contrast="high"] .topbar { border-bottom-color: #ffffff; }
+
+/* ── Notification bell + dropdown ─────────────────────── */
+.notif-wrap { position: relative; margin-left: 8px; }
+.notif-btn {
+  position: relative;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  transition: background 0.15s, border-color 0.15s;
+}
+.notif-btn:hover { background: var(--navy-50); border-color: var(--navy-500); }
+
+.theme-toggle {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.2s;
+  padding: 0;
+}
+.theme-toggle:hover {
+  background: var(--navy-50);
+  box-shadow: 0 0 12px rgba(255, 179, 0, 0.3);
+}
+.theme-toggle svg { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.theme-toggle:hover #themeIconLight svg { transform: rotate(45deg); }
+.theme-toggle:hover #themeIconDark svg { transform: rotate(-15deg); }
+body[data-theme="dark"] .theme-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 12px rgba(149, 189, 215, 0.5);
+}
+.notif-badge {
+  position: absolute;
+  top: -6px; right: -6px;
+  min-width: 18px; height: 18px;
+  padding: 0 5px;
+  background: #dc2626;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid white;
+  font-family: 'Space Grotesk', sans-serif;
+}
+.notif-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 380px;
+  max-height: 480px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(74, 122, 173, 0.15);
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+  flex-direction: column;
+}
+.notif-dropdown.open { display: flex; }
+.notif-head {
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--navy-50);
+}
+.notif-head-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+.notif-mark-all {
+  background: transparent;
+  border: none;
+  color: var(--navy-700);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: inherit;
+}
+.notif-mark-all:hover { background: white; }
+.notif-list {
+  overflow-y: auto;
+  max-height: 420px;
+  padding: 4px 0;
+}
+.notif-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+}
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--navy-50);
+  border-left: 3px solid transparent;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.12s;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background: var(--navy-50); }
+/* Unread: a red bar and a red dot, both of which disappear once the
+   notification is opened (api/notif-read.php sets is_read = 1). */
+.notif-item.unread { background: rgba(220, 38, 38, 0.05); border-left: 3px solid #dc2626; }
+.notif-item.unread .notif-item-title { font-weight: 700; color: #991b1b; }
+.notif-item.unread .notif-item-title::after {
+  content: ''; display: inline-block; vertical-align: middle;
+  width: 7px; height: 7px; margin-left: 7px;
+  background: #dc2626; border-radius: 50%;
+}
+body[data-theme="dark"] .notif-item.unread { background: rgba(220, 38, 38, 0.14); }
+body[data-theme="dark"] .notif-item.unread .notif-item-title { color: #fecaca; }
+.notif-item-icon {
+  font-size: 16px;
+  width: 26px; height: 26px;
+  border-radius: 8px;
+  background: var(--navy-50);
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.notif-item-body { flex: 1; min-width: 0; }
+.notif-item-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.notif-item-text {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.notif-item-time {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Dark mode variants */
+body[data-theme="dark"] .notif-btn {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.1);
+  color: #ffffff;
+}
+body[data-theme="dark"] .notif-btn:hover { background: rgba(255,255,255,0.1); }
+body[data-theme="dark"] .notif-dropdown {
+  background: var(--white);
+  border-color: rgba(255,255,255,0.1);
+}
+body[data-theme="dark"] .notif-head { background: rgba(255,255,255,0.05); }
+body[data-theme="dark"] .notif-item { border-bottom-color: rgba(255,255,255,0.06); color: #ffffff; }
+body[data-theme="dark"] .notif-item:hover { background: rgba(255,255,255,0.05); }
+
+/* ── Folder subgroup headers ─────────────────────────── */
+.folder-subgroup-header {
+  margin: 18px 0 10px 0;
+  padding-left: 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.folder-subgroup-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 1px solid;
+}
+.folder-subgroup-header.cat-navy .folder-subgroup-badge {
+  background: white;
+  color: var(--navy-700);
+  border-color: var(--navy-500);
+}
+.folder-subgroup-header.cat-orange .folder-subgroup-badge {
+  background: white;
+  color: var(--orange-600);
+  border-color: var(--orange-100);
+}
+.folder-subgroup-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--navy-50);
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+.folder-subgroup-header.cat-orange .folder-subgroup-count {
+  background: var(--orange-50);
+}
+.folder-subgroup-hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+body[data-theme="dark"] .folder-subgroup-badge {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLASSMORPHISM DESIGN LAYER  (design-only overlay)
+   Frosted-glass surfaces, soft gradient backdrop, refined shadows.
+   =============================================================== */
+
+/* Ambient gradient backdrop with soft colored orbs behind the glass */
+body {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(66, 116, 217, 0.16), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(255, 106, 28, 0.12), transparent 40%),
+    radial-gradient(circle at 78% 92%, rgba(74, 122, 173, 0.14), transparent 45%),
+    linear-gradient(160deg, #eef4fa 0%, #dbe7f3 60%, #cddcec 100%);
+  background-attachment: fixed;
+}
+
+/* ── Frosted cards ── */
+.card {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 8px 32px rgba(74, 122, 173, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* ── Frosted stat tiles ── */
+.stat {
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 24px rgba(74, 122, 173, 0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(74, 122, 173, 0.14), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+
+/* ── Frosted folder cards ── */
+.folder {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  box-shadow: 0 6px 22px rgba(74, 122, 173, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.folder:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(74, 122, 173, 0.16);
+  border-color: rgba(106, 147, 224, 0.5);
+}
+
+/* ── Sidebar (light mode: medium blue; dark navy is reserved for dark mode) ── */
+.sidebar {
+  background: linear-gradient(180deg, #1e5285 0%, #0f3a63 55%, #0a2647 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Topbar (light mode: medium blue) ── */
+.topbar {
+  background: linear-gradient(100deg, #1e5285 0%, #0f3a63 55%, #0a2647 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky; top: 0; z-index: 50;
+}
+/* Topbar controls stay readable on the dark gradient */
+.topbar .notif-btn { color: #ffffff; border-color: rgba(255,255,255,0.28); }
+.topbar .notif-btn:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.5); }
+
+/* Dark mode must override the glass rules above (they come later in the file) */
+body[data-theme="dark"] .sidebar {
+  background: #071d38 !important;
+  border-right: 1px solid #1e4d78;
+}
+body[data-theme="dark"] .topbar {
+  background: #071d38 !important;
+  border-bottom: 1px solid #1e4d78;
+}
+body[data-theme="dark"] .nav a { color: #ffffff !important; }
+body[data-theme="dark"] .nav a:hover { background: rgba(255,255,255,0.08); color: #fff !important; }
+body[data-theme="dark"] .nav a.active { background: rgba(255,255,255,0.14); color: #fff !important; }
+body[data-theme="dark"] .brand { color: #fff !important; }
+body[data-theme="dark"] .topbar .school-name,
+body[data-theme="dark"] .topbar-user,
+body[data-theme="dark"] .topbar-user .tb-name span { color: #ffffff !important; }
+
+/* ── Frosted form controls ── */
+.form-input, .form-textarea, .form-select, .search-input, .filter-select {
+  background: rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(196, 217, 215, 0.8) !important;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus,
+.search-input:focus, .filter-select:focus {
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* ── Glassy modals / swift confirm ── */
+#swiftConfirmBox, .modal-box, .modal {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 24px 70px rgba(32, 39, 89, 0.3) !important;
+}
+
+/* ── Buttons get a subtle glass sheen on ghost variant ── */
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--navy-500);
+  color: #2f578a;
+}
+.btn-ghost:hover {
+  background: var(--navy-50);
+  border-color: #2f578a;
+}
+
+/* ── Notification dropdown glass ── */
+.notif-dropdown {
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 20px 50px rgba(32, 39, 89, 0.22) !important;
+}
+
+/* Dark theme keeps glass but on a darker tint */
+body[data-theme="dark"] .card,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .folder {
+  background: #103a5f !important;
+  border: 1px solid #1e4d78 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28) !important;
+}
+body[data-theme="dark"] {
+  background: #0a2647 !important;
+}
+
+/* Respect reduced-transparency / older browsers: fall back to solid */
+@supports not (backdrop-filter: blur(1px)) {
+  .card, .stat, .folder { background: rgba(255,255,255,0.96); }
+  .sidebar { background: #0f3a63; }
+  .topbar { background: var(--border); }
+}
+
+/* ── Password strength meter (settings) ── */
+.pw-meter { margin-top: 8px; }
+.pw-bars { display: flex; gap: 4px; }
+.pw-bar { flex: 1; height: 5px; border-radius: 3px; background: #dbe7f3; transition: background 0.2s; }
+.pw-label { font-size: 11.5px; margin-top: 5px; font-weight: 600; color: #3b7597; }
+.pw-rules { list-style: none; margin: 9px 0 0; padding: 0; font-size: 11.5px; color: #3b7597; line-height: 1.9; }
+.pw-rules li { display: flex; align-items: center; gap: 6px; }
+.pw-rules li.met { color: #16a34a; }
+.pw-dot { font-size: 12px; width: 12px; display: inline-block; text-align: center; }
+.pw-match { font-size: 12.5px; margin-top: 6px; font-weight: 600; }
+
+/* ── Document pages use dark mode colors for consistency ── */
+body[data-theme="dark"][data-nav="ppmps"],
+body[data-theme="dark"][data-nav="my-ppmp"],
+body[data-theme="dark"][data-nav="appcse"],
+body[data-theme="dark"][data-nav="my-appcse"],
+body[data-theme="dark"][data-nav="annex"],
+body[data-theme="dark"][data-nav="my-annex"],
+body[data-theme="dark"][data-nav="nonps"],
+body[data-theme="dark"][data-nav="my-nonps"],
+body[data-theme="dark"][data-nav="nonps-consolidated"] {
+  --page: #0a2647; --white: #103a5f; --ink: #ffffff; --muted: #b7cde0;
+  --border: #1e4d78; --navy-50: #103a5f; --navy-100: #16456e; --navy-500: #b8d4e8;
+  --navy-700: #d4e8f5; --navy-800: #e8f4fc; --navy-900: #ffffff;
+  --orange-600: #9cc6e8; --orange-500: #7fb0dd; --orange-100: #16456e; --orange-50: #103a5f;
+  --accent: #7fb0dd; --accent-hover: #6a9fce; --accent-ink: #052235;
+  --revision-blue: #9cc3e6; --revision-blue-light: #b8d4e8; --revision-blue-bg: #16456e;
+  background: #0a2647 !important; color: #ffffff;
+}
+body[data-theme="dark"][data-nav="scoping"],
+body[data-theme="dark"][data-nav="my-scoping"] {
+  --page: #0a2647; --white: #103a5f; --ink: #ffffff; --muted: #b7cde0;
+  --border: #1e4d78; --navy-50: #103a5f; --navy-100: #16456e; --navy-500: #b8d4e8;
+  --navy-700: #d4e8f5; --navy-800: #e8f4fc; --navy-900: #ffffff;
+  --orange-600: #9cc6e8; --orange-500: #7fb0dd; --orange-100: #16456e; --orange-50: #103a5f;
+  --accent: #7fb0dd; --accent-hover: #6a9fce; --accent-ink: #052235;
+  --revision-blue: #9cc3e6; --revision-blue-light: #b8d4e8; --revision-blue-bg: #16456e;
+  background: #0a2647 !important; color: #ffffff;
+}
+/* Document surfaces use dark mode colors for consistency */
+body[data-theme="dark"][data-nav="ppmps"] .card, body[data-theme="dark"][data-nav="my-ppmp"] .card,
+body[data-theme="dark"][data-nav="appcse"] .card, body[data-theme="dark"][data-nav="annex"] .card,
+body[data-theme="dark"][data-nav="my-annex"] .card, body[data-theme="dark"][data-nav="nonps"] .card,
+body[data-theme="dark"][data-nav="my-nonps"] .card, body[data-theme="dark"][data-nav="nonps-consolidated"] .card,
+body[data-theme="dark"][data-nav="scoping"] .card, body[data-theme="dark"][data-nav="my-scoping"] .card {
+  background: var(--white); border-color: var(--border);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE — surfaces that were written as `white` rather than as a
+   token, and so stayed white while the text above them went white too.
+
+   Colour only. Nothing here moves anything, resizes anything or changes
+   what any control does; every rule sets a background, a border or a
+   text colour, and every one is scoped to the dark theme, so light mode
+   is untouched. They sit at the end of the file and beat a page's own
+   `.folder-card { background: white }` on specificity, not on order.
+   =============================================================== */
+
+/* ── Cards, tiles and rows ── */
+body[data-theme="dark"] .file,
+body[data-theme="dark"] .folder-card,
+body[data-theme="dark"] .lh-preview,
+body[data-theme="dark"] .login-card,
+body[data-theme="dark"] .login-shell,
+body[data-theme="dark"] .panel {
+  background: #103a5f !important;
+  border-color: #1e4d78 !important;
+  color: #ffffff;
+}
+
+/* ── The sheet a document is typed on ──
+   A PPMP, an APP-CSE, a Non-PS list, an Annex and a Market Scoping sheet
+   are printed forms, and the stylesheet already pins their colours so the
+   format never shifts. Dark mode was the one thing that got past that
+   pin: it is declared later in the file, so it re-flipped the ink white
+   while the paper and the ruled headings stayed light, and the form
+   vanished into itself.
+
+   The sheet gets its printed palette back here. Variables cascade, so
+   every heading, label, total and category row inside it returns to navy
+   on white without having to be named. The window around the sheet stays
+   dark — dark chrome, lit page, the way a document is edited. */
+body[data-theme="dark"] .pp-wrap,
+body[data-theme="dark"] .ac-wrap,
+body[data-theme="dark"] .paper,
+body[data-theme="dark"] .ms-paper,
+body[data-theme="dark"] .pp-official,
+body[data-theme="dark"] .ac-official,
+body[data-theme="dark"] .grand-box,
+body[data-theme="dark"] .lh-preview .paper {
+  --navy-900: #4A7AAD; --navy-800: #3E6796; --navy-700: #4F7DAE;
+  --navy-500: #95BDD7; --navy-100: #CFE4F0; --navy-50: #EAF4F9;
+  --ink: #133458; --muted: #516678;
+  --orange-600: #7a5f18; --orange-500: #CFE4F0;
+  --orange-100: #FFFCE8; --orange-50: #FFFEF7;
+  --border: #B4E1EB; --white: #FFFFFF; --page: #CFE4F0;
+  background: #FFFFFF !important;
+  color: #133458 !important;
+  border-color: #B4E1EB !important;
+}
+/* and everything printed on it */
+body[data-theme="dark"] .pp-wrap *,
+body[data-theme="dark"] .ac-wrap *,
+body[data-theme="dark"] .paper *,
+body[data-theme="dark"] .ms-paper *,
+body[data-theme="dark"] .pp-official *,
+body[data-theme="dark"] .ac-official *,
+body[data-theme="dark"] .grand-box * {
+  color: #133458;
+}
+body[data-theme="dark"] .pp-wrap input,
+body[data-theme="dark"] .ac-wrap input,
+body[data-theme="dark"] .paper input,
+body[data-theme="dark"] .ms-paper input,
+body[data-theme="dark"] .pp-wrap textarea,
+body[data-theme="dark"] .ac-wrap textarea,
+body[data-theme="dark"] .paper textarea,
+body[data-theme="dark"] .ms-paper textarea,
+body[data-theme="dark"] .pp-wrap select,
+body[data-theme="dark"] .ac-wrap select,
+body[data-theme="dark"] .paper select {
+  background: #FFFFFF !important;
+  color: #133458 !important;
+  border-color: #B4E1EB !important;
+}
+body[data-theme="dark"] .pp-wrap ::placeholder,
+body[data-theme="dark"] .ac-wrap ::placeholder,
+body[data-theme="dark"] .paper ::placeholder,
+body[data-theme="dark"] .ms-paper ::placeholder { color: #7d8fa3 !important; }
+
+/* ── Modals and dropdowns ── */
+body[data-theme="dark"] .terms-modal,
+body[data-theme="dark"] .modal-box,
+body[data-theme="dark"] #swiftConfirmBox,
+body[data-theme="dark"] .notif-dropdown {
+  background: #103a5f !important;
+  border-color: #1e4d78 !important;
+  color: #ffffff !important;
+}
+
+/* ── Anything typed into ── */
+body[data-theme="dark"] .input,
+body[data-theme="dark"] .mini-input,
+body[data-theme="dark"] .mini-select,
+body[data-theme="dark"] .otp-input,
+body[data-theme="dark"] .bx,
+body[data-theme="dark"] .fld input,
+body[data-theme="dark"] input[type="text"],
+body[data-theme="dark"] input[type="email"],
+body[data-theme="dark"] input[type="password"],
+body[data-theme="dark"] input[type="number"],
+body[data-theme="dark"] input[type="date"],
+body[data-theme="dark"] input[type="search"],
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] select {
+  background: #0d3155 !important;
+  border-color: #2b6394 !important;
+  color: #ffffff !important;
+}
+body[data-theme="dark"] ::placeholder { color: #9dbdd8 !important; opacity: 1; }
+
+/* ── The white-on-white outliers the audit turned up ── */
+body[data-theme="dark"] .btn-terms-ghost,
+body[data-theme="dark"] .btn-choice {
+  background: #16456e !important; color: #ffffff !important;
+  border-color: #2b6394 !important;
+}
+body[data-theme="dark"] .print-tip {
+  background: #16456e !important; color: #ffffff !important;
+  border-color: #2b6394 !important;
+}
+/* The Gmail button is Google's own mark and keeps its white pill, so its
+   label is pinned dark rather than left to the theme. */
+body[data-theme="dark"] .btn-google { color: #3c4043 !important; }
+
+
+/* ── Dark mode: the last of the white pills and bars ──
+   Colour only; each of these was written as `white` and so kept it while
+   the text on it turned white. */
+body[data-theme="dark"] .chip,
+body[data-theme="dark"] .toolbar,
+body[data-theme="dark"] .filter-row,
+body[data-theme="dark"] .rec-list,
+body[data-theme="dark"] .tab,
+body[data-theme="dark"] .fmt-tab {
+  background: #103a5f !important;
+  border-color: #1e4d78 !important;
+  color: #ffffff;
+}
+body[data-theme="dark"] .chip { color: #cfe2f2 !important; }
+body[data-theme="dark"] .chip.active,
+body[data-theme="dark"] .chip[aria-pressed="true"] {
+  background: var(--accent) !important; color: var(--accent-ink) !important;
+  border-color: var(--accent) !important;
+}
+/* A sheet's own toolbar sits on the sheet, so it keeps the paper's colours. */
+body[data-theme="dark"] .pp-wrap .toolbar,
+body[data-theme="dark"] .ac-wrap .toolbar,
+body[data-theme="dark"] .paper .toolbar {
+  background: #FFFFFF !important; color: #133458 !important;
+}
+
+/* ── The consolidation banner ──
+   It is a deep navy panel with white text, so its eyebrow and its ghost
+   button cannot take their colour from the accent: in light mode that is
+   navy on navy, 1.51:1. Both are pinned to the panel instead. */
+.consol-eyebrow { color: rgba(255, 255, 255, 0.85) !important; }
+.consol .btn-ghost {
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #17335c !important;
+  border-color: rgba(255, 255, 255, 0.94) !important;
+}
+.consol .btn-ghost:hover {
+  background: #ffffff !important; color: #0f2b4a !important;
+}
+
+/* ── The pale one-offs the audit named ── */
+/* Annex add-row read 4.49:1 on white — a rounding away from the minimum. */
+.addrow-a, .addrow-b { color: #3d6693 !important; }
+/* The delete-row cross was mid grey on white, 2.85:1. */
+.sig-block button[onclick^="removeSigBlock"],
+.nonps-row-x, .row-x { color: #6b6b6b !important; }
+body[data-theme="dark"] .nonps-row-x,
+body[data-theme="dark"] .row-x { color: #ff9b91 !important; }
+/* "or" between the sign-in choices, and the divider between the links. */
+.choice-or { color: var(--muted) !important; }
+body[data-theme="dark"] .choice-or,
+body[data-theme="dark"] .link-divider { color: #b7cde0 !important; }
+
+
+/* ── The tail the audit was left with ──────────────────────────
+   Small, specific spots. Colour only. ─────────────────────────── */
+
+/* The delete crosses had a mid grey and a mid red written into them, at
+   2.85:1 on white and 2.43:1 on a navy sheet. One token each, flipped. */
+:root { --row-x: #6b6b6b; --row-x-strong: #c0392b; }
+body[data-theme="dark"] { --row-x: #cfe2f2; --row-x-strong: #ff9b91; }
+
+/* The Non-PS table heads were pinned to white paper, but the sheet they
+   sit on turns navy in dark mode, so the headings went white on white. */
+body[data-theme="dark"] #nonpsTable th,
+body[data-theme="dark"] table[id$="Table"] th {
+  background: #16456e !important; color: #ffffff !important;
+}
+
+/* Tags and buttons that kept a navy ink on a navy chip. */
+body[data-theme="dark"] .readonly-tag { background: #2b6394 !important; color: #ffffff !important; }
+body[data-theme="dark"] .back-btn     { color: #ffffff !important; }
+body[data-theme="dark"] .amt          { color: #133458 !important; }
+
+/* Chips on Departments: the button variant was never given the dark
+   treatment the link variant has. */
+body[data-theme="dark"] button.chip { background: #103a5f !important; color: #cfe2f2 !important; border-color: #1e4d78 !important; }
+body[data-theme="dark"] button.chip.active { background: var(--accent) !important; color: var(--accent-ink) !important; }
+
+/* The active folder chip was white on a mid blue, 4.31:1. */
+.chip.active, a.chip.active { background: var(--accent) !important; color: var(--accent-ink) !important; border-color: var(--accent) !important; }
+
+/* Pale blue notes and counters on pale blue panels. */
+.note-inline, .mail-note { color: var(--ink) !important; }
+body[data-theme="dark"] .folder-group-badge,
+body[data-theme="dark"] .folder-subgroup-badge { color: #ffffff !important; background: #2b6394 !important; }
+
+
+/* ── The last of it ────────────────────────────────────────────
+   Colour only; nothing here changes what anything does. ──────── */
+
+/* A ghost button keeps a navy ink, which disappeared once its panel went
+   navy too. In dark mode it takes the pale ink the rest of the theme uses. */
+body[data-theme="dark"] .btn-ghost {
+  background: #16456e !important;
+  color: #ffffff !important;
+  border-color: #3d7cb0 !important;
+}
+body[data-theme="dark"] .btn-ghost:hover {
+  background: #1e5285 !important; color: #ffffff !important;
+}
+/* On a document sheet the ghost button sits on white paper, so it keeps
+   the printed navy instead. */
+body[data-theme="dark"] .pp-wrap .btn-ghost,
+body[data-theme="dark"] .ac-wrap .btn-ghost,
+body[data-theme="dark"] .paper .btn-ghost {
+  background: #FFFFFF !important; color: #2f578a !important;
+  border-color: #95BDD7 !important;
+}
+
+/* Success green, and the deep green used for "connected" style pills,
+   both need a light counterpart on a navy panel. */
+body[data-theme="dark"] { --green-500: #7ddba3; --green-50: #16456e; }
+body[data-theme="dark"] .pill-active,
+body[data-theme="dark"] .ok-tag,
+body[data-theme="dark"] .status-ok { color: #7ddba3 !important; }
+body[data-theme="dark"] [style*="#14532d"] { color: #7ddba3 !important; }
+
+/* Counters and live indicators that were pale blue on a pale panel. */
+body[data-theme="dark"] .live-dot,
+body[data-theme="dark"] .live-clock,
+body[data-theme="dark"] .autosave-note { color: #133458 !important; }
+.count-pill, .count-badge { background: var(--accent) !important; color: var(--accent-ink) !important; }
+
+/* Two chips and a delete button that landed a fraction under the line. */
+body[data-theme="dark"] { --accent-ink: #04202f; }
+body[data-theme="dark"] .btn-danger-ghost,
+body[data-theme="dark"] .btn[onclick*="delete"] { color: #ffffff !important; background: #7a2f2f !important; }
+
+/* The dot between the sign-up links, and the Terms link on it. */
+.register-dot, .login-links .dot { color: var(--muted) !important; }
+body[data-theme="dark"] .login-card a,
+body[data-theme="dark"] .login-shell a,
+body[data-theme="dark"] .terms-modal a { color: #9cc6e8 !important; }
+body[data-theme="dark"] .login-card span,
+body[data-theme="dark"] .login-shell span { color: inherit; }
+
+/* ── The final few ─────────────────────────────────────────────
+   Named one at a time because each lives on its own page. Colour
+   only, in both themes. ───────────────────────────────────────── */
+
+/* The "in" chip on the consolidated APP-CSE, and the amount beside it,
+   kept a deep green and a deep navy on what became a navy panel. */
+body[data-theme="dark"] .dept-chip.in { background: #16456e !important; color: #7ddba3 !important; border-color: #3f7f5c !important; }
+body[data-theme="dark"] .amt { color: #ffffff !important; }
+body[data-theme="dark"] .ac-wrap .amt,
+body[data-theme="dark"] .paper .amt { color: #133458 !important; }
+
+/* The live clock on Activity logs sat on a white pill. */
+body[data-theme="dark"] #liveClock,
+body[data-theme="dark"] #liveClock + span,
+body[data-theme="dark"] .live-pill,
+body[data-theme="dark"] .live-pill * { color: #ffffff !important; }
+
+/* The dot between the sign-up links was a border colour used as text. */
+.login-links .link-divider, .register-sep { color: var(--muted) !important; }
+body[data-theme="dark"] .login-links .link-divider,
+body[data-theme="dark"] .register-sep { color: #b7cde0 !important; }
+
+/* Counters drawn as a filled circle: the fill is the accent, so the
+   number takes the accent's own ink rather than plain white. */
+.trail-step .step-num, .track-count, .stage-count,
+.tracking-num, .count-circle { background: var(--accent) !important; color: var(--accent-ink) !important; }
+
+/* Inside the consolidation banner the ghost button has to beat the
+   general dark-mode ghost rule, because that banner is navy in both
+   themes and the button has always been a light pill on it. */
+body[data-theme="dark"] .consol .btn-ghost,
+.consol .btn-ghost {
+  background: rgba(255, 255, 255, 0.94) !important;
+  color: #17335c !important;
+  border-color: rgba(255, 255, 255, 0.94) !important;
+}
+
+/* A chip label on the accent fill was a shade under at 3.97:1 in dark.
+   Dark only: in light mode the accent is a deep navy and the label has
+   to stay white. */
+body[data-theme="dark"] button.chip.active,
+body[data-theme="dark"] a.chip.active { color: #04202f !important; }
+
+/* Mail settings printed its paths in a pale blue on a pale panel. */
+body [style*="--navy-500"] .mono, .mail-path, .cred-note { color: var(--ink) !important; }
+
+
+/* ── The named remainder ───────────────────────────────────────
+   Each of these is one element on one page. Colour only. ─────── */
+
+/* Counters drawn as a filled circle on Tracking and Consolidation: the
+   fill is the accent, so the number takes the accent's own ink. */
+body[data-theme="dark"] [style*="var(--navy-500)"],
+body[data-theme="dark"] [style*="var(--accent)"] { color: var(--accent-ink); }
+.stage-pill, .track-pill, .consol-count {
+  background: var(--accent) !important; color: var(--accent-ink) !important;
+}
+
+/* Market Scoping's own toolbar buttons were 4.47:1 in dark — a rounding
+   away. Its sheet toolbar sits on the dark chrome, not on the paper. */
+body[data-theme="dark"][data-nav="scoping"] .btn-ghost,
+body[data-theme="dark"][data-nav="my-scoping"] .btn-ghost {
+  color: #ffffff !important; background: #1e5285 !important;
+  border-color: #4d8ec4 !important;
+}
+
+/* Mail settings printed the credential path and the callback URL in a
+   pale blue on a pale panel, 2.87:1. */
+body[data-nav="mail"] .card div[style*="--navy-500"],
+body[data-nav="mail"] .card strong[style*="--navy-500"] { color: var(--ink) !important; }
+
+
+/* ── The last four ───────────────────────────────────────────── */
+/* The autosave note follows the card it sits on rather than a pinned ink. */
+body[data-theme="dark"] #saveStatus { color: #cfe2f2 !important; }
+/* Two buttons a rounding away from the line in dark. */
+body[data-theme="dark"] .btn-ghost { color: #ffffff !important; }
+body[data-theme="dark"] button.btn[style*="var(--accent)"] { color: #04202f !important; }
+body[data-theme="dark"] form button.btn { color: #04202f !important; }
+body[data-theme="dark"] form button.btn.btn-ghost,
+body[data-theme="dark"] form button.btn-primary { color: #ffffff !important; }
+
+/* The autosave bar on the consolidated Non-PS editor. */
+body[data-theme="dark"] .save-bar {
+  background: #103a5f !important; border-color: #1e4d78 !important;
+}
+body[data-theme="dark"] .save-bar, body[data-theme="dark"] .save-bar * { color: #cfe2f2 !important; }
+
+
+/* ── Rows that had to fold ─────────────────────────────────────
+   Four rigid rows, each given a point at which it folds onto a second
+   line rather than pushing the page sideways. Sizes and wrapping only:
+   the same controls, in the same order, doing the same things. ────── */
+
+/* Fund sources: name | the three totals | the amount and its Save. */
+@media (max-width: 1250px) {
+  .fund-row { grid-template-columns: 1fr !important; gap: 14px !important;
+              align-items: stretch !important; }
+}
+
+/* Deadlines: five fixed columns needed about 700px before the gaps. */
+@media (max-width: 1250px) {
+  .deadline-row { grid-template-columns: repeat(2, minmax(150px, 1fr)) !important; }
+  .deadline-row > *:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 620px) {
+  .deadline-row { grid-template-columns: 1fr !important; }
+}
+
+/* Three stat tiles abreast need about 760px; below that they go two, and
+   then one. */
+@media (max-width: 1150px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px)  { .stats { grid-template-columns: 1fr; } }
+.stat { min-width: 0; }
+
+/* Market Scoping is a 210mm sheet and stays one — a document does not
+   reflow. The area around it scrolls instead of the page. */
+.ms-paper-wrap { overflow-x: auto; max-width: 100%; }
+@media (max-width: 1200px) { .ms-paper { margin: 0; } }
+
+/* The same for the other sheets, so none of them can move the page. */
+.pp-wrap, .ac-wrap, .paper { max-width: 100%; }
+.pp-scroll, .ac-scroll { overflow-x: auto; }
+
+/* User management: three actions on one line need about 380px. Below
+   that they stack in the cell rather than run off the table. */
+.user-actions { flex-wrap: wrap; }
+@media (max-width: 1150px) {
+  .user-actions { justify-content: flex-end; }
+  .user-actions form, .user-actions .btn { flex: 0 0 auto; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PAPER IS WHITE, IN BOTH THEMES
+
+   A PPMP, a Non-PS list, an Annex, a Market Scoping sheet and an
+   APP-CSE are printed forms. They are read on paper and signed on
+   paper, so they look the same whoever is reading them and whichever
+   theme they are reading in: white paper, navy ink, pale blue rules.
+
+   Dark mode belongs to the room around them — the page behind, the
+   sidebar, the top bar, the toolbar above the sheet. A sheet of paper
+   on a dark desk.
+
+   Listed in one place so a sheet cannot be missed. Colour only.
+   =============================================================== */
+body[data-theme="dark"] .doc-paper,
+body[data-theme="dark"] .pp-wrap,
+body[data-theme="dark"] .ac-wrap,
+body[data-theme="dark"] .ac-official,
+body[data-theme="dark"] .pp-official,
+body[data-theme="dark"] .annex-sheet,
+body[data-theme="dark"] .ms-paper,
+body[data-theme="dark"] .paper,
+body[data-theme="dark"] .sheet,
+body[data-theme="dark"] .grand-box {
+  /* the printed palette, restated so it survives the dark tokens */
+  --navy-900: #4A7AAD; --navy-800: #3E6796; --navy-700: #4F7DAE;
+  --navy-500: #95BDD7; --navy-100: #CFE4F0; --navy-50: #EAF4F9;
+  --ink: #133458; --muted: #516678;
+  --orange-600: #7a5f18; --orange-500: #CFE4F0;
+  --orange-100: #FFFCE8; --orange-50: #FFFEF7;
+  --green-500: #15803d; --green-50: #f0fdf4;
+  --accent: #1e5285; --accent-hover: #0f3a63; --accent-ink: #ffffff;
+  --border: #B4E1EB; --white: #FFFFFF; --page: #FFFFFF;
+  --row-x: #6b6b6b; --row-x-strong: #c0392b;
+  background: #FFFFFF !important;
+  color: #133458 !important;
+  border-color: #B4E1EB !important;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35) !important;
+}
+/* and everything printed on the sheet */
+body[data-theme="dark"] .doc-paper *,
+body[data-theme="dark"] .pp-wrap *,
+body[data-theme="dark"] .ac-wrap *,
+body[data-theme="dark"] .ac-official *,
+body[data-theme="dark"] .pp-official *,
+body[data-theme="dark"] .annex-sheet *,
+body[data-theme="dark"] .ms-paper *,
+body[data-theme="dark"] .paper *,
+body[data-theme="dark"] .sheet *,
+body[data-theme="dark"] .grand-box * {
+  color: #133458;
+}
+/* including anything typed into it */
+body[data-theme="dark"] .doc-paper input,
+body[data-theme="dark"] .doc-paper textarea,
+body[data-theme="dark"] .doc-paper select,
+body[data-theme="dark"] .annex-sheet input,
+body[data-theme="dark"] .annex-sheet textarea,
+body[data-theme="dark"] .annex-sheet select,
+body[data-theme="dark"] .ms-paper input,
+body[data-theme="dark"] .ms-paper textarea,
+body[data-theme="dark"] .sheet input,
+body[data-theme="dark"] .sheet textarea,
+body[data-theme="dark"] .ac-official input,
+body[data-theme="dark"] .ac-official textarea,
+body[data-theme="dark"] .ac-official select,
+body[data-theme="dark"] .pp-official input,
+body[data-theme="dark"] .pp-official textarea {
+  background: #FFFFFF !important;
+  color: #133458 !important;
+  border-color: #B4E1EB !important;
+}
+body[data-theme="dark"] .doc-paper ::placeholder,
+body[data-theme="dark"] .annex-sheet ::placeholder,
+body[data-theme="dark"] .ms-paper ::placeholder,
+body[data-theme="dark"] .sheet ::placeholder,
+body[data-theme="dark"] .ac-official ::placeholder,
+body[data-theme="dark"] .pp-official ::placeholder { color: #7d8fa3 !important; }
+/* a table heading is ruled paper, not a filled bar */
+body[data-theme="dark"] .doc-paper th,
+body[data-theme="dark"] .doc-paper td,
+body[data-theme="dark"] .annex-sheet th,
+body[data-theme="dark"] .annex-sheet td,
+body[data-theme="dark"] .ac-official th,
+body[data-theme="dark"] .ac-official td,
+body[data-theme="dark"] #nonpsTable th,
+body[data-theme="dark"] #nonpsTable td {
+  background: #FFFFFF !important; color: #133458 !important;
+}
+
+/* The room around the paper is the dark one. */
+body[data-theme="dark"] .ms-paper-wrap,
+body[data-theme="dark"] .paper-wrap,
+body[data-theme="dark"] .sheet-wrap {
+  background: transparent !important;
+}
+
+
+/* ── v35: words the page-wide audit could not measure ──────────────
+   These sit straight on the page's gradient, so audit_contrast.py lists
+   them instead of failing them. Measured on a flat background they were
+   under 4.5:1 in light mode. Colour only; dark mode already passes. */
+body:not([data-theme="dark"]) .breadcrumb a { color: #2f578a; }                  /* 1.99:1 -> 7.4:1 */
+body:not([data-theme="dark"]) .folder-group-header.cat-navy .folder-group-badge,
+body:not([data-theme="dark"]) .folder-subgroup-header.cat-navy .folder-subgroup-badge { color: #2f578a; }
+/* The date and name boxes on the PPMP's signature card are on white paper
+   in dark mode too, so their hint text takes the paper's own grey. */
+body[data-theme="dark"] .pp-official ::placeholder { color: #5a6b7f !important; }
+
+/* ── v39: search fields (config/ui.php search_field()) ─────────────
+   The magnifier used to be a background image, which the frosted-field
+   rule above wiped out with its !important background — so the boxes
+   looked like any other text field. It is drawn inside the field now. */
+.search-field { position: relative; display: flex; align-items: center; flex: 1 1 260px; min-width: 200px; max-width: 380px; }
+.search-field .sf-icon { position: absolute; left: 13px; width: 17px; height: 17px; fill: none; stroke: #4F6478;
+  stroke-width: 2.2; stroke-linecap: round; pointer-events: none; z-index: 1; }
+.search-field .search-input { width: 100%; max-width: none; min-width: 0; flex: 1 1 auto; height: 40px; margin: 0;
+  padding: 0 38px 0 39px; border-radius: 999px; font-size: 13.5px; background-image: none;
+  -webkit-appearance: none; appearance: none; box-sizing: border-box; }
+.search-field .search-input::-webkit-search-cancel-button,
+.search-field .search-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
+.search-field .search-input::placeholder { color: #5a6b7f; opacity: 1; }
+.search-field:focus-within .search-input { border-color: #4A7AAD !important; box-shadow: 0 0 0 3px rgba(74,122,173,0.22); outline: none; }
+.search-field:focus-within .sf-icon { stroke: #1c4c86; }
+.search-field .sf-clear { position: absolute; right: 7px; width: 26px; height: 26px; border: none; border-radius: 50%;
+  background: transparent; cursor: pointer; display: grid; place-items: center; padding: 0; color: #4F6478; z-index: 1; }
+.search-field .sf-clear[hidden] { display: none; }
+.search-field .sf-clear svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.search-field .sf-clear:hover, .search-field .sf-clear:focus-visible { background: rgba(74,122,173,0.16); color: #133458; outline: none; }
+body[data-theme="dark"] .search-field .sf-icon { stroke: #b9cfe6; }
+body[data-theme="dark"] .search-field:focus-within .sf-icon { stroke: #ffffff; }
+body[data-theme="dark"] .search-field .sf-clear { color: #b9cfe6; }
+body[data-theme="dark"] .search-field .sf-clear:hover,
+body[data-theme="dark"] .search-field .sf-clear:focus-visible { background: rgba(255,255,255,0.14); color: #ffffff; }
+body[data-theme="dark"] .search-field .search-input::placeholder { color: #9fb6cf !important; }
+
+/* ── v39: "Sort by date" above a list of submissions (config/ui.php sort_bar()) ── */
+.sort-bar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; flex-wrap: wrap;
+  margin: 0 0 12px; font-size: 12.5px; color: var(--ink); }
+.sort-bar .sb-icon { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round; }
+.sort-bar label { font-weight: 600; }
+.sort-bar .sort-select { padding: 6px 10px; font-size: 12.5px; min-width: 150px; }
+.sort-bar[hidden] { display: none; }
+.chip-set { display: contents; }
+
+/* ── v39: words that could not be read on screens changed this round ──
+   Colour only. Measured in both themes. */
+body[data-theme="dark"] .log-pager .pg.active { background: #1c4c86; color: #ffffff; border-color: #4A7AAD; }   /* 1.12:1 -> 8.4:1 */
+body[data-theme="dark"] .ns-status-label { color: #cfe4f0 !important; }                                        /* 2.61:1 -> 8.9:1 */
+
+/* ── v40: "✓ Submitted" on a document's page (config/ui.php submitted_stamp()) ── */
+.sub-stamp { display: flex; gap: 10px; align-items: flex-start; padding: 11px 16px; margin: 0 0 16px;
+  background: #f0fdf4; border: 1px solid #86efac; border-left: 4px solid #15803d; border-radius: 12px;
+  font-size: 13px; color: #14532d; line-height: 1.5; }
+.sub-stamp .ss-mark { font-weight: 800; font-size: 15px; line-height: 1.2; }
+body[data-theme="dark"] .sub-stamp { background: #14532d; border-color: #15803d; color: #ffffff; }
+body[data-theme="dark"] .sub-stamp * { color: #ffffff; }
+/* The Annex form's example text (placeholders) on its white sheet: 2.32:1 -> 5.6:1, both themes */
+.annex-sheet ::placeholder,
+body[data-theme="dark"] .annex-sheet ::placeholder { color: #5a6b7f !important; opacity: 1; }
+
+
+/* ═══ v96: Responsive (phones and tablets) ═══════════════════════════
+   Under 900px the side menu becomes a drawer that opens from the ☰ button
+   in the top bar, the top bar keeps only what fits, and every page is one
+   column. Wide documents (PPMP, APP-CSE …) scroll inside their own box,
+   never the page. */
+.nav-toggle, .nav-close { display: none; }
+.nav-backdrop { display: none; }
+@media (max-width: 900px) {
+  .topbar { padding: 10px 14px; gap: 10px; }
+  body.has-sidebar .nav-toggle {
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.08); color: #ffffff; cursor: pointer;
+  }
+  .nav-toggle:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+  .institution { gap: 10px; min-width: 0; flex: 1 1 auto; }
+  .school-mark { width: 38px; height: 38px; }
+  .school-name { font-size: 14px; line-height: 1.25; min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .topbar-user { gap: 8px; flex-shrink: 0; }
+  .topbar-user .tb-name > span { display: none; }
+  .notif-dropdown { position: fixed; top: 64px; left: 10px; right: 10px; width: auto; max-height: 70vh; }
+
+  .app { grid-template-columns: 1fr; }
+  .app > .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 1200;
+    width: 284px; max-width: 86vw; padding: 52px 18px 24px;
+    flex-direction: column; align-items: stretch; overflow-x: hidden; overflow-y: auto;
+    transform: translateX(-104%); visibility: hidden; transition: transform .22s ease, visibility 0s linear .22s;
+    box-shadow: 0 0 40px rgba(0,0,0,0.35);
+  }
+  body.nav-open .app > .sidebar { transform: none; visibility: visible; transition: transform .22s ease, visibility 0s; }
+  .app > .sidebar .brand { margin: 0 0 4px; padding: 0 14px; }
+  .app > .sidebar .brand-sub { display: block; margin-bottom: 20px; }
+  .app > .sidebar .nav { flex-direction: column; gap: 3px; }
+  .app > .sidebar .nav a { padding: 11px 14px; }
+  .app > .sidebar .sidebar-footer { display: block; }
+  .nav-close {
+    display: block; position: absolute; top: 10px; right: 12px; width: 36px; height: 36px;
+    border: none; border-radius: 10px; background: rgba(255,255,255,0.10); color: #ffffff;
+    font-size: 24px; line-height: 1; cursor: pointer;
+  }
+  .nav-close:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+  body.nav-open .nav-backdrop { display: block; position: fixed; inset: 0; z-index: 1100; background: rgba(6, 20, 40, 0.5); }
+  body.nav-open { overflow: hidden; }
+
+  .main { padding: 20px 16px 48px; }
+  .page-title { font-size: 24px; }
+  .page-head { gap: 12px; }
+  .page-head > * { min-width: 0; max-width: 100%; }
+  .filter-row { flex-wrap: wrap; }
+  .filter-row > * { max-width: 100%; }
+  .search-field { min-width: 0; flex: 1 1 220px; }
+  .main .card { max-width: 100%; }
+  .main .card, .main .card-body { overflow-wrap: anywhere; }
+}
+@media (max-width: 480px) {
+  .school-name { font-size: 12.5px; }
+  .topbar-user .theme-toggle { padding: 4px; }
+  .page-title { font-size: 21px; }
+  .main { padding: 16px 12px 40px; }
+}
+@media print { .nav-toggle, .nav-close, .nav-backdrop { display: none !important; } }
+
+/* v96: pages that were wider than a phone */
+@media (max-width: 900px) {
+  .pool-3 { grid-template-columns: 1fr !important; }
+  .ac-agency-grid, .appcse-doc .agency-grid { grid-template-columns: 1fr !important; }
+  .main .paper { overflow-x: auto; max-width: 100%; }
+  .fmt-row { grid-template-columns: 1fr !important; gap: 6px !important; }
+  .fmt-row > label { padding-top: 0 !important; }
+  .save-bar { margin: 20px -16px -16px !important; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; align-items: center; }
+  .pp-official .letterhead { grid-template-columns: 52px 1fr 52px !important; gap: 8px !important; }
+  .pp-official .letterhead img, .pp-official .letterhead .seal img { max-width: 52px !important; height: auto !important; }
+  .pp-official .flag { width: 52px !important; height: 40px !important; background-size: contain !important; }
+}
+@media (max-width: 480px) { .save-bar { margin: 20px -12px -12px !important; } }

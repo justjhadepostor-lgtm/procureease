@@ -1,0 +1,4 @@
+# Block direct web access to backup files.
+# All downloads must go through backup.php which authenticates the admin.
+Order deny,allow
+Deny from all
